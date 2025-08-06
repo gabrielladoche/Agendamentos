@@ -1,0 +1,310 @@
+/* ===== SISTEMA DE TEMAS PARA BARBEARIAS ===== */
+
+/* TEMA CLÁSSICO (Azul e Branco) - Padrão */
+[data-tema="classico"] {
+    --cor-primaria: #3B82F6;
+    --cor-secundaria: #1E40AF;
+    --cor-acento: #60A5FA;
+    --cor-fundo: #F8FAFC;
+    --cor-card: #FFFFFF;
+    --cor-texto: #1F2937;
+    --cor-texto-claro: #6B7280;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #3B82F6 0%, #1E40AF 100%);
+    --gradiente-card: linear-gradient(135deg, #EBF4FF 0%, #DBEAFE 100%);
+    --sombra-card: 0 4px 6px -1px rgba(59, 130, 246, 0.1);
+}
+
+/* TEMA MODERNO (Preto e Dourado) */
+[data-tema="moderno"] {
+    --cor-primaria: #F59E0B;
+    --cor-secundaria: #111827;
+    --cor-acento: #FCD34D;
+    --cor-fundo: #111827;
+    --cor-card: #1F2937;
+    --cor-texto: #F9FAFB;
+    --cor-texto-claro: #D1D5DB;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    --gradiente-card: linear-gradient(135deg, #374151 0%, #1F2937 100%);
+    --sombra-card: 0 4px 6px -1px rgba(245, 158, 11, 0.2);
+}
+
+/* TEMA ELEGANTE (Cinza e Verde) */
+[data-tema="elegante"] {
+    --cor-primaria: #059669;
+    --cor-secundaria: #374151;
+    --cor-acento: #34D399;
+    --cor-fundo: #F3F4F6;
+    --cor-card: #FFFFFF;
+    --cor-texto: #374151;
+    --cor-texto-claro: #6B7280;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #059669 0%, #047857 100%);
+    --gradiente-card: linear-gradient(135deg, #ECFDF5 0%, #D1FAE5 100%);
+    --sombra-card: 0 4px 6px -1px rgba(5, 150, 105, 0.1);
+}
+
+/* TEMA VIBRANTE (Roxo e Rosa) */
+[data-tema="vibrante"] {
+    --cor-primaria: #8B5CF6;
+    --cor-secundaria: #7C3AED;
+    --cor-acento: #F472B6;
+    --cor-fundo: #FAF5FF;
+    --cor-card: #FFFFFF;
+    --cor-texto: #581C87;
+    --cor-texto-claro: #7C2D92;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #8B5CF6 0%, #F472B6 100%);
+    --gradiente-card: linear-gradient(135deg, #F3E8FF 0%, #FCE7F3 100%);
+    --sombra-card: 0 4px 6px -1px rgba(139, 92, 246, 0.2);
+}
+
+/* TEMA RÚSTICO (Marrom e Laranja) */
+[data-tema="rustico"] {
+    --cor-primaria: #EA580C;
+    --cor-secundaria: #92400E;
+    --cor-acento: #FB923C;
+    --cor-fundo: #FEF3E2;
+    --cor-card: #FFFFFF;
+    --cor-texto: #92400E;
+    --cor-texto-claro: #C2410C;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #EA580C 0%, #DC2626 100%);
+    --gradiente-card: linear-gradient(135deg, #FFF7ED 0%, #FFEDD5 100%);
+    --sombra-card: 0 4px 6px -1px rgba(234, 88, 12, 0.15);
+}
+
+/* TEMA MINIMALISTA (Branco e Preto) */
+[data-tema="minimalista"] {
+    --cor-primaria: #000000;
+    --cor-secundaria: #374151;
+    --cor-acento: #6B7280;
+    --cor-fundo: #FFFFFF;
+    --cor-card: #F9FAFB;
+    --cor-texto: #111827;
+    --cor-texto-claro: #6B7280;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #111827 0%, #374151 100%);
+    --gradiente-card: linear-gradient(135deg, #F9FAFB 0%, #F3F4F6 100%);
+    --sombra-card: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+/* TEMA TROPICAL (Verde e Azul) */
+[data-tema="tropical"] {
+    --cor-primaria: #0891B2;
+    --cor-secundaria: #059669;
+    --cor-acento: #06B6D4;
+    --cor-fundo: #ECFEFF;
+    --cor-card: #FFFFFF;
+    --cor-texto: #155E75;
+    --cor-texto-claro: #0891B2;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #0891B2 0%, #059669 100%);
+    --gradiente-card: linear-gradient(135deg, #CFFAFE 0%, #A7F3D0 100%);
+    --sombra-card: 0 4px 6px -1px rgba(8, 145, 178, 0.15);
+}
+
+/* TEMA VINTAGE (Sépia e Bege) */
+[data-tema="vintage"] {
+    --cor-primaria: #A16207;
+    --cor-secundaria: #78716C;
+    --cor-acento: #D97706;
+    --cor-fundo: #FEF7ED;
+    --cor-card: #FFFBEB;
+    --cor-texto: #78716C;
+    --cor-texto-claro: #A8A29E;
+    --cor-sucesso: #10B981;
+    --cor-aviso: #F59E0B;
+    --cor-erro: #EF4444;
+    --gradiente-hero: linear-gradient(135deg, #A16207 0%, #78716C 100%);
+    --gradiente-card: linear-gradient(135deg, #FEF3E2 0%, #FDE68A 100%);
+    --sombra-card: 0 4px 6px -1px rgba(161, 98, 7, 0.1);
+}
+
+/* ===== APLICAÇÃO DAS VARIÁVEIS CSS ===== */
+
+/* Cores de fundo */
+.tema-fundo {
+    background-color: var(--cor-fundo);
+    color: var(--cor-texto);
+}
+
+.tema-card {
+    background-color: var(--cor-card);
+    box-shadow: var(--sombra-card);
+}
+
+/* Gradientes */
+.tema-gradiente-hero {
+    background: var(--gradiente-hero);
+}
+
+.tema-gradiente-card {
+    background: var(--gradiente-card);
+}
+
+/* Botões */
+.tema-btn-primario {
+    background: var(--gradiente-hero);
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.tema-btn-primario:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.tema-btn-secundario {
+    background-color: var(--cor-card);
+    color: var(--cor-primaria);
+    border: 2px solid var(--cor-primaria);
+}
+
+.tema-btn-secundario:hover {
+    background-color: var(--cor-primaria);
+    color: white;
+}
+
+/* Textos */
+.tema-texto-primario {
+    color: var(--cor-primaria);
+}
+
+.tema-texto-secundario {
+    color: var(--cor-secundaria);
+}
+
+.tema-texto-claro {
+    color: var(--cor-texto-claro);
+}
+
+/* Bordas e acentos */
+.tema-borda-primaria {
+    border-color: var(--cor-primaria);
+}
+
+.tema-acento {
+    color: var(--cor-acento);
+}
+
+/* Links */
+.tema-link {
+    color: var(--cor-primaria);
+    text-decoration: none;
+}
+
+.tema-link:hover {
+    color: var(--cor-acento);
+    text-decoration: underline;
+}
+
+/* Formulários */
+.tema-input {
+    border-color: var(--cor-texto-claro);
+    background-color: var(--cor-card);
+    color: var(--cor-texto);
+}
+
+.tema-input:focus {
+    border-color: var(--cor-primaria);
+    box-shadow: 0 0 0 3px rgba(var(--cor-primaria), 0.1);
+}
+
+/* Cards especiais */
+.tema-card-destaque {
+    background: var(--gradiente-card);
+    border-left: 4px solid var(--cor-primaria);
+}
+
+/* Badges e status */
+.tema-badge-sucesso {
+    background-color: var(--cor-sucesso);
+    color: white;
+}
+
+.tema-badge-aviso {
+    background-color: var(--cor-aviso);
+    color: white;
+}
+
+.tema-badge-erro {
+    background-color: var(--cor-erro);
+    color: white;
+}
+
+/* Navegação */
+.tema-nav {
+    background: var(--gradiente-hero);
+    color: white;
+}
+
+.tema-nav-link {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.tema-nav-link:hover {
+    color: white;
+}
+
+/* Animações personalizadas por tema */
+@keyframes tema-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.tema-animacao {
+    animation: tema-fade-in 0.6s ease-out;
+}
+
+/* Responsividade para temas */
+@media (max-width: 768px) {
+    .tema-card {
+        margin: 0.5rem;
+    }
+    
+    .tema-btn-primario,
+    .tema-btn-secundario {
+        width: 100%;
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Modo escuro para temas que suportam */
+@media (prefers-color-scheme: dark) {
+    [data-tema="classico"] {
+        --cor-fundo: #0F172A;
+        --cor-card: #1E293B;
+        --cor-texto: #F1F5F9;
+        --cor-texto-claro: #94A3B8;
+    }
+    
+    [data-tema="elegante"] {
+        --cor-fundo: #111827;
+        --cor-card: #1F2937;
+        --cor-texto: #F9FAFB;
+        --cor-texto-claro: #D1D5DB;
+    }
+}

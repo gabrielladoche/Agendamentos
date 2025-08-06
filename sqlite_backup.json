@@ -1,0 +1,258 @@
+{
+  "timestamp": "2025-08-06T12:12:12.722384",
+  "users": [
+    {
+      "id": 1,
+      "username": "teste_barbeiro",
+      "email": "teste@exemplo.com",
+      "first_name": "João",
+      "last_name": "Barbeiro",
+      "is_staff": false,
+      "is_superuser": false,
+      "date_joined": "2025-08-06T11:34:22.997613+00:00"
+    },
+    {
+      "id": 2,
+      "username": "admin",
+      "email": "admin@exemplo.com",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": true,
+      "is_superuser": true,
+      "date_joined": "2025-08-06T11:40:51.560645+00:00"
+    },
+    {
+      "id": 3,
+      "username": "HenriFrios",
+      "email": "",
+      "first_name": "",
+      "last_name": "",
+      "is_staff": false,
+      "is_superuser": false,
+      "date_joined": "2025-08-06T11:48:38.404908+00:00"
+    }
+  ],
+  "planos": [
+    {
+      "id": 1,
+      "nome": "Básico",
+      "tipo": "basico",
+      "preco_mensal": "49.00",
+      "max_profissionais": 1,
+      "descricao": "Ideal para estabelecimentos pequenos com um profissional",
+      "agendamento_online": true,
+      "gestao_agenda": true,
+      "notificacoes_email": true,
+      "notificacoes_sms": false,
+      "integracao_google_calendar": false,
+      "relatorios_basicos": false,
+      "relatorios_avancados": false,
+      "integracao_pagamento": false,
+      "personalizacao_completa": false,
+      "suporte_prioritario": false,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:34:02.746613+00:00"
+    },
+    {
+      "id": 2,
+      "nome": "Intermediário",
+      "tipo": "intermediario",
+      "preco_mensal": "89.00",
+      "max_profissionais": 0,
+      "descricao": "Recomendado para estabelecimentos com múltiplos profissionais",
+      "agendamento_online": true,
+      "gestao_agenda": true,
+      "notificacoes_email": true,
+      "notificacoes_sms": false,
+      "integracao_google_calendar": true,
+      "relatorios_basicos": true,
+      "relatorios_avancados": false,
+      "integracao_pagamento": false,
+      "personalizacao_completa": false,
+      "suporte_prioritario": false,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:34:02.752627+00:00"
+    },
+    {
+      "id": 3,
+      "nome": "Avançado",
+      "tipo": "avancado",
+      "preco_mensal": "149.00",
+      "max_profissionais": 0,
+      "descricao": "Premium com todas as funcionalidades para estabelecimentos grandes",
+      "agendamento_online": true,
+      "gestao_agenda": true,
+      "notificacoes_email": true,
+      "notificacoes_sms": true,
+      "integracao_google_calendar": true,
+      "relatorios_basicos": true,
+      "relatorios_avancados": true,
+      "integracao_pagamento": true,
+      "personalizacao_completa": true,
+      "suporte_prioritario": true,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:34:02.757323+00:00"
+    }
+  ],
+  "barbearias": [
+    {
+      "id": 1,
+      "nome": "Barbearia Teste",
+      "endereco": "Rua Teste, 123",
+      "telefone": "(11) 99999-9999",
+      "email_notificacoes": "teste@exemplo.com",
+      "slug": "teste-barbearia",
+      "usuario_id": 1,
+      "plano_id": 2,
+      "ativa": true,
+      "tema": "classico",
+      "criada_em": "2025-08-06T11:34:23.375384+00:00"
+    },
+    {
+      "id": 2,
+      "nome": "Henri Frios",
+      "endereco": "Rua Henri",
+      "telefone": "11910688908",
+      "email_notificacoes": "gabriel.ladoche@outlook.com",
+      "slug": "henri-frios",
+      "usuario_id": 3,
+      "plano_id": 3,
+      "ativa": true,
+      "tema": "vibrante",
+      "criada_em": "2025-08-06T11:49:03.358287+00:00"
+    }
+  ],
+  "servicos": [
+    {
+      "id": 1,
+      "nome": "Luzes",
+      "preco": "30000.00",
+      "duracao_minutos": 60,
+      "barbearia_id": 1,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:52:08.726697+00:00"
+    },
+    {
+      "id": 2,
+      "nome": "Barba",
+      "preco": "20.00",
+      "duracao_minutos": 20,
+      "barbearia_id": 1,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:57:06.165559+00:00"
+    },
+    {
+      "id": 3,
+      "nome": "Corte + Barba",
+      "preco": "45.00",
+      "duracao_minutos": 45,
+      "barbearia_id": 1,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:57:06.169918+00:00"
+    }
+  ],
+  "profissionais": [
+    {
+      "id": 1,
+      "nome": "Ron",
+      "barbearia_id": 1,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:51:58.143596+00:00"
+    },
+    {
+      "id": 2,
+      "nome": "Pedro Santos",
+      "barbearia_id": 1,
+      "ativo": true,
+      "criado_em": "2025-08-06T11:57:06.173629+00:00"
+    }
+  ],
+  "horarios": [
+    {
+      "id": 1,
+      "barbearia_id": 1,
+      "dia_semana": 0,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    },
+    {
+      "id": 2,
+      "barbearia_id": 1,
+      "dia_semana": 1,
+      "abertura": "08:52:00",
+      "fechamento": "13:52:00",
+      "fechado": false
+    },
+    {
+      "id": 3,
+      "barbearia_id": 1,
+      "dia_semana": 2,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    },
+    {
+      "id": 4,
+      "barbearia_id": 1,
+      "dia_semana": 3,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    },
+    {
+      "id": 5,
+      "barbearia_id": 1,
+      "dia_semana": 4,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    },
+    {
+      "id": 6,
+      "barbearia_id": 1,
+      "dia_semana": 5,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    },
+    {
+      "id": 7,
+      "barbearia_id": 1,
+      "dia_semana": 6,
+      "abertura": null,
+      "fechamento": null,
+      "fechado": true
+    }
+  ],
+  "agendamentos": [
+    {
+      "id": 1,
+      "nome_cliente": "Gabriel",
+      "telefone_cliente": "11910688908",
+      "email_cliente": "gabriel.ladoche@outlook.com",
+      "data_hora": "2025-08-19T12:00:00+00:00",
+      "servico_id": 1,
+      "profissional_id": 1,
+      "barbearia_id": 1,
+      "status": "agendado",
+      "observacoes": "",
+      "notificacao_enviada": false,
+      "criado_em": "2025-08-06T11:52:57.362856+00:00"
+    },
+    {
+      "id": 2,
+      "nome_cliente": "ron",
+      "telefone_cliente": "11910688908",
+      "email_cliente": "gabriel.ladoche@outlook.com",
+      "data_hora": "2025-08-19T08:30:00+00:00",
+      "servico_id": 2,
+      "profissional_id": 2,
+      "barbearia_id": 1,
+      "status": "agendado",
+      "observacoes": "",
+      "notificacao_enviada": false,
+      "criado_em": "2025-08-06T11:58:14.198402+00:00"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+[04/Aug/2025 20:14:54] "GET / HTTP/1.1" 302 0
+[04/Aug/2025 20:14:54] "GET /henri-frios/ HTTP/1.1" 200 12168
+[04/Aug/2025 20:16:16] "GET / HTTP/1.1" 302 0
+[04/Aug/2025 20:16:16] "GET /henri-frios/ HTTP/1.1" 200 12168
+[04/Aug/2025 20:16:16] "GET /admin/ HTTP/1.1" 302 0
+[04/Aug/2025 20:16:16] "GET /admin/login/?next=/admin/ HTTP/1.1" 200 4173
+[04/Aug/2025 20:16:16] "GET /henri-frios/ HTTP/1.1" 200 12168

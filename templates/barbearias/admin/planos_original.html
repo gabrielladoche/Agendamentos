@@ -1,0 +1,415 @@
+{% extends 'barbearias/admin/base_admin.html' %}
+
+{% block title %}Planos - {{ barbearia.nome }}{% endblock %}
+
+{% block extra_css %}
+<style>
+.planos-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.plano-card {
+    background: white;
+    border: 2px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 24px;
+    transition: all 0.3s ease;
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.plano-card:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.15);
+    transform: translateY(-4px);
+}
+
+.plano-card.atual {
+    border-color: #10b981;
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+}
+
+.plano-card.atual::after {
+    content: "🌟 PLANO ATUAL";
+    position: absolute;
+    top: -8px;
+    left: 16px;
+    background: #10b981;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
+}
+
+.plano-card.recomendado {
+    border-color: #f59e0b;
+    position: relative;
+}
+
+.plano-card.recomendado::before {
+    content: "⭐ RECOMENDADO";
+    position: absolute;
+    top: -8px;
+    right: 16px;
+    background: #f59e0b;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(245, 158, 11, 0.3);
+}
+
+.plano-header {
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.plano-nome {
+    font-size: 24px;
+    font-weight: 700;
+    color: #1f2937;
+    margin-bottom: 8px;
+}
+
+.plano-preco {
+    font-size: 32px;
+    font-weight: 800;
+    color: #3b82f6;
+    margin-bottom: 4px;
+}
+
+.plano-periodo {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.plano-descricao {
+    color: #4b5563;
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.plano-funcionalidades {
+    flex: 1;
+    margin-bottom: 24px;
+}
+
+.funcionalidade {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+    font-size: 14px;
+}
+
+.funcionalidade.disponivel {
+    color: #059669;
+}
+
+.funcionalidade.indisponivel {
+    color: #9ca3af;
+}
+
+.funcionalidade-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.plano-botao {
+    width: 100%;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-align: center;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.plano-botao.selecionar {
+    background: #3b82f6;
+    color: white;
+}
+
+.plano-botao.selecionar:hover {
+    background: #2563eb;
+    transform: translateY(-1px);
+}
+
+.plano-botao.atual {
+    background: #10b981;
+    color: white;
+    cursor: default;
+}
+
+.plano-botao.atual:hover {
+    transform: none;
+}
+
+.warning-profissionais {
+    background: #fef3c7;
+    border: 1px solid #f59e0b;
+    border-radius: 8px;
+    padding: 12px;
+    margin: 16px 0;
+    color: #92400e;
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.grid-planos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    margin-top: 24px;
+}
+
+@media (max-width: 768px) {
+    .grid-planos {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+{% endblock %}
+
+{% block page_title %}💎 Planos de Assinatura{% endblock %}
+
+{% block content %}
+<div class="planos-container">
+    <!-- Header da página -->
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2 flex items-center">
+            <svg class="w-8 h-8 mr-3 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+            💎 Escolha Seu Plano
+        </h1>
+        <p class="text-gray-600">Selecione o plano que melhor atende às necessidades do seu estabelecimento</p>
+    </div>
+
+    <!-- Status atual -->
+    {% if plano_atual %}
+    <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-green-800">
+                    🌟 Plano Atual: {{ plano_atual.nome }}
+                </h3>
+                <p class="text-green-700">
+                    R$ {{ plano_atual.preco_mensal }}/mês - 
+                    {% if plano_atual.max_profissionais == 0 %}
+                        Profissionais ilimitados
+                    {% else %}
+                        Até {{ plano_atual.max_profissionais }} profissional{{ plano_atual.max_profissionais|pluralize:"es" }}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
+        <div class="flex items-center">
+            <div class="flex-shrink-0">
+                <svg class="w-8 h-8 text-yellow-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                </svg>
+            </div>
+            <div class="ml-4">
+                <h3 class="text-lg font-semibold text-yellow-800">
+                    ⚠️ Nenhum Plano Selecionado
+                </h3>
+                <p class="text-yellow-700">
+                    Escolha um plano para acessar todas as funcionalidades do sistema
+                </p>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Grid de planos -->
+    <div class="grid-planos">
+        {% for plano in planos %}
+        <div class="plano-card {% if plano == plano_atual %}atual{% endif %}{% if plano.tipo == 'intermediario' %} recomendado{% endif %}">
+            <div class="plano-header">
+                <div class="plano-nome">
+                    {% if plano.tipo == 'basico' %}🔵{% elif plano.tipo == 'intermediario' %}🟡{% else %}🟣{% endif %}
+                    {{ plano.nome }}
+                </div>
+                <div class="plano-preco">R$ {{ plano.preco_mensal }}</div>
+                <div class="plano-periodo">/mês</div>
+            </div>
+
+            <div class="plano-descricao">
+                {{ plano.descricao }}
+            </div>
+
+            <div class="plano-funcionalidades">
+                <div class="funcionalidade {% if plano.agendamento_online %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.agendamento_online %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Agendamento Online
+                </div>
+
+                <div class="funcionalidade {% if plano.gestao_agenda %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.gestao_agenda %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Gestão de Agenda
+                </div>
+
+                <div class="funcionalidade {% if plano.max_profissionais == 0 %}disponivel{% elif plano.max_profissionais == 1 %}disponivel{% else %}disponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                    </svg>
+                    {% if plano.max_profissionais == 0 %}
+                        Profissionais Ilimitados
+                    {% else %}
+                        {{ plano.max_profissionais }} Profissional{{ plano.max_profissionais|pluralize:"es" }}
+                    {% endif %}
+                </div>
+
+                <div class="funcionalidade {% if plano.notificacoes_email %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.notificacoes_email %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Notificações por Email
+                </div>
+
+                {% if plano.tipo != 'basico' %}
+                <div class="funcionalidade {% if plano.integracao_google_calendar %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.integracao_google_calendar %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Integração Google Calendar
+                </div>
+
+                <div class="funcionalidade {% if plano.relatorios_basicos %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.relatorios_basicos %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Relatórios Básicos
+                </div>
+                {% endif %}
+
+                {% if plano.tipo == 'avancado' %}
+                <div class="funcionalidade {% if plano.notificacoes_sms %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.notificacoes_sms %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Notificações SMS
+                </div>
+
+                <div class="funcionalidade {% if plano.relatorios_avancados %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.relatorios_avancados %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Relatórios Avançados
+                </div>
+
+                <div class="funcionalidade {% if plano.integracao_pagamento %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.integracao_pagamento %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Integração com Pagamentos
+                </div>
+
+                <div class="funcionalidade {% if plano.suporte_prioritario %}disponivel{% else %}indisponivel{% endif %}">
+                    <svg class="funcionalidade-icon" fill="currentColor" viewBox="0 0 20 20">
+                        {% if plano.suporte_prioritario %}
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path>
+                        {% else %}
+                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                        {% endif %}
+                    </svg>
+                    Suporte Prioritário
+                </div>
+                {% endif %}
+            </div>
+
+            <!-- Warning sobre profissionais -->
+            {% if plano.warning_profissionais %}
+            <div class="warning-profissionais">
+                {{ plano.warning_profissionais }}
+            </div>
+            {% endif %}
+
+            {% if plano == plano_atual %}
+                <button class="plano-botao atual">
+                    ✅ Plano Atual
+                </button>
+            {% else %}
+                <a href="{% url 'barbearias:admin_selecionar_plano' barbearia.slug plano.id %}" 
+                   class="plano-botao selecionar"
+                   onclick="return confirm('Tem certeza que deseja alterar para o plano {{ plano.nome }}?{% if plano.warning_profissionais %} ATENÇÃO: {{ plano.warning_profissionais }}{% endif %}')">
+                    Selecionar Plano
+                </a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Botão voltar -->
+    <div class="flex justify-center mt-8">
+        <a href="{% url 'barbearias:admin_dashboard' barbearia.slug %}" 
+           class="px-6 py-3 bg-gray-100 text-gray-700 rounded-lg font-medium hover:bg-gray-200 transition-colors flex items-center">
+            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+            </svg>
+            Voltar ao Dashboard
+        </a>
+    </div>
+</div>
+{% endblock %}

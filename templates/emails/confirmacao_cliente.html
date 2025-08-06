@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agendamento Confirmado</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background: linear-gradient(135deg, #28a745, #20c997);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .header p {
+            margin: 5px 0 0 0;
+            opacity: 0.9;
+        }
+        .content {
+            padding: 30px;
+        }
+        .status-badge {
+            display: inline-block;
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .info-section {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .info-section h3 {
+            margin-top: 0;
+            color: #28a745;
+            font-size: 16px;
+        }
+        .info-row {
+            margin: 8px 0;
+        }
+        .info-row strong {
+            color: #495057;
+            min-width: 100px;
+            display: inline-block;
+        }
+        .datetime-highlight {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .datetime-highlight .date {
+            font-size: 20px;
+            font-weight: bold;
+            color: #856404;
+        }
+        .datetime-highlight .time {
+            font-size: 18px;
+            color: #856404;
+            margin-top: 5px;
+        }
+        .establishment {
+            background: #e9ecef;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .establishment h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .important-notes {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        .important-notes h3 {
+            margin-top: 0;
+            color: #856404;
+        }
+        .important-notes ul {
+            margin: 10px 0;
+            padding-left: 20px;
+        }
+        .important-notes li {
+            margin: 5px 0;
+            color: #856404;
+        }
+        .footer {
+            background: #6c757d;
+            color: white;
+            padding: 15px;
+            text-align: center;
+            font-size: 12px;
+        }
+        .btn {
+            display: inline-block;
+            background: #007bff;
+            color: white;
+            padding: 12px 24px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 10px 5px;
+            font-weight: bold;
+        }
+        .btn:hover {
+            background: #0056b3;
+            color: white;
+        }
+        .today-tomorrow {
+            background: #d4edda;
+            border: 1px solid #c3e6cb;
+            color: #155724;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px 0;
+            font-weight: bold;
+            text-align: center;
+        }
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+            }
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>✅ Agendamento Confirmado!</h1>
+            <p>Seu horário foi confirmado pelo estabelecimento</p>
+        </div>
+        
+        <div class="content">
+            <p><strong>Olá {{ agendamento.nome_cliente }}!</strong></p>
+            
+            <div class="status-badge">
+                CONFIRMADO ✅
+            </div>
+            
+            <p>Excelente notícia! Seu agendamento foi <strong>confirmado</strong> pelo estabelecimento. Estamos esperando você!</p>
+            
+            {% if eh_hoje %}
+            <div class="today-tomorrow">
+                🚨 SEU AGENDAMENTO É HOJE! 🚨
+            </div>
+            {% elif eh_amanha %}
+            <div class="today-tomorrow">
+                📅 SEU AGENDAMENTO É AMANHÃ!
+            </div>
+            {% endif %}
+            
+            <div class="datetime-highlight">
+                <div class="date">📅 {{ agendamento.data_hora|date:"d/m/Y (l)" }}</div>
+                <div class="time">⏰ {{ agendamento.data_hora|date:"H:i" }}</div>
+            </div>
+            
+            <div class="info-section">
+                <h3>📋 Detalhes do Agendamento</h3>
+                <div class="info-row">
+                    <strong>Cliente:</strong> {{ agendamento.nome_cliente }}
+                </div>
+                <div class="info-row">
+                    <strong>Telefone:</strong> {{ agendamento.telefone_cliente }}
+                </div>
+                <div class="info-row">
+                    <strong>Email:</strong> {{ agendamento.email_cliente }}
+                </div>
+                <div class="info-row">
+                    <strong>Serviço:</strong> {{ agendamento.servico.nome }}
+                </div>
+                <div class="info-row">
+                    <strong>Profissional:</strong> {{ agendamento.profissional.nome }}
+                </div>
+                <div class="info-row">
+                    <strong>Duração:</strong> {{ agendamento.servico.duracao_minutos }} minutos
+                </div>
+                <div class="info-row">
+                    <strong>Valor:</strong> R$ {{ agendamento.servico.preco }}
+                </div>
+                {% if agendamento.observacoes %}
+                <div class="info-row">
+                    <strong>Observações:</strong> {{ agendamento.observacoes }}
+                </div>
+                {% endif %}
+            </div>
+            
+            <div class="establishment">
+                <h3>🏪 {{ agendamento.barbearia.nome }}</h3>
+                <div class="info-row">
+                    <strong>Endereço:</strong> {{ agendamento.barbearia.endereco }}
+                </div>
+                <div class="info-row">
+                    <strong>Telefone:</strong> {{ agendamento.barbearia.telefone }}
+                </div>
+            </div>
+            
+            <div class="important-notes">
+                <h3>⚠️ Informações Importantes</h3>
+                <ul>
+                    <li><strong>Chegue com 10 minutos de antecedência</strong></li>
+                    <li>Traga um documento de identidade</li>
+                    <li>Para cancelar, entre em contato <strong>pelo menos 2 horas antes</strong></li>
+                    <li>Em caso de atraso, ligue para o estabelecimento</li>
+                </ul>
+            </div>
+            
+            <div style="text-align: center; margin: 30px 0;">
+                <p><strong>Muito obrigado! Até breve! 😊</strong></p>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>Sistema de Agendamento - ID: #{{ agendamento.id }}</p>
+            <p>Este email foi enviado automaticamente. Não responda a este email.</p>
+        </div>
+    </div>
+</body>
+</html>

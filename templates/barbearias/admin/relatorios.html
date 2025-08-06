@@ -1,0 +1,353 @@
+{% extends 'barbearias/admin/base_admin.html' %}
+
+{% block title %}Relatórios - {{ barbearia.nome }}{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <!-- Header com gradiente -->
+    <div class="bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl p-8 mb-8 text-white">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">
+                    <svg class="w-8 h-8 inline-block mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    Relatórios Mensais
+                </h1>
+                <p class="text-blue-100">Baixe relatórios detalhados dos seus agendamentos</p>
+            </div>
+            <div class="text-right">
+                <div class="text-sm text-blue-100">{{ barbearia.nome }}</div>
+                <div class="text-2xl font-bold">{{ ano_atual }}</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card principal -->
+    <div class="bg-white rounded-xl shadow-lg overflow-hidden">
+        <!-- Seção de seleção -->
+        <div class="p-8">
+            <div class="text-center mb-8">
+                <h2 class="text-2xl font-semibold text-gray-800 mb-2">Gerar Relatório</h2>
+                <p class="text-gray-600">Selecione o período e formato desejado para baixar o relatório</p>
+            </div>
+
+            <form method="get" class="space-y-6">
+                <!-- Seleção de Período -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        Período do Relatório
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Data Início -->
+                        <div class="space-y-4">
+                            <h4 class="font-medium text-gray-700">📅 Data Início</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="mes_inicio" class="block text-sm font-medium text-gray-700 mb-1">Mês</label>
+                                    <select name="mes_inicio" id="mes_inicio" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required>
+                                        {% for num, nome in meses %}
+                                            <option value="{{ num }}" {% if num == mes_atual %}selected{% endif %}>
+                                                {{ nome }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="ano_inicio" class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+                                    <select name="ano_inicio" id="ano_inicio" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required>
+                                        {% for ano in anos %}
+                                            <option value="{{ ano }}" {% if ano == ano_atual %}selected{% endif %}>
+                                                {{ ano }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Data Fim -->
+                        <div class="space-y-4">
+                            <h4 class="font-medium text-gray-700">🏁 Data Fim</h4>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label for="mes_fim" class="block text-sm font-medium text-gray-700 mb-1">Mês</label>
+                                    <select name="mes_fim" id="mes_fim" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required>
+                                        {% for num, nome in meses %}
+                                            <option value="{{ num }}" {% if num == mes_atual %}selected{% endif %}>
+                                                {{ nome }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="ano_fim" class="block text-sm font-medium text-gray-700 mb-1">Ano</label>
+                                    <select name="ano_fim" id="ano_fim" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200" required>
+                                        {% for ano in anos %}
+                                            <option value="{{ ano }}" {% if ano == ano_atual %}selected{% endif %}>
+                                                {{ ano }}
+                                            </option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Seleção de Formato -->
+                <div class="bg-gray-50 p-6 rounded-lg">
+                    <h3 class="text-lg font-medium text-gray-800 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Formato do Arquivo
+                    </h3>
+                    
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <label class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-blue-300 transition-colors duration-200">
+                            <input type="radio" name="formato" value="pdf" checked class="sr-only">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 w-6 h-6 bg-red-500 rounded border-2 border-red-500 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-medium text-gray-900">PDF</div>
+                                    <div class="text-xs text-gray-500">Relatório completo com gráficos</div>
+                                </div>
+                            </div>
+                        </label>
+                        
+                        <label class="relative flex items-center p-4 border-2 border-gray-200 rounded-lg cursor-pointer hover:border-green-300 transition-colors duration-200">
+                            <input type="radio" name="formato" value="csv" class="sr-only">
+                            <div class="flex items-center">
+                                <div class="flex-shrink-0 w-6 h-6 bg-green-500 rounded border-2 border-green-500 flex items-center justify-center">
+                                    <svg class="w-4 h-4 text-white" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="text-sm font-medium text-gray-900">CSV</div>
+                                    <div class="text-xs text-gray-500">Planilha para Excel</div>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+                
+                <!-- Botões de ação -->
+                <div class="text-center pt-4">
+                    <button type="submit" name="download" value="1" class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold rounded-lg shadow-lg hover:from-blue-600 hover:to-purple-700 transform hover:scale-105 transition-all duration-200">
+                        <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        Gerar e Baixar Relatório
+                    </button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Divisor -->
+        <div class="border-t border-gray-200"></div>
+
+        <!-- Informações sobre o relatório -->
+        <div class="p-8 bg-gray-50">
+            <div class="text-center mb-6">
+                <h3 class="text-xl font-semibold text-gray-800 mb-2">
+                    <svg class="w-6 h-6 inline-block mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                    </svg>
+                    O que está incluído no relatório?
+                </h3>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-blue-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Agendamentos</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Todos os agendamentos do período selecionado</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Dados dos Clientes</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Nome, telefone e email dos clientes</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-purple-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Serviços</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Detalhes dos serviços e preços</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-orange-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Profissionais</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Informações dos profissionais</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Formato PDF</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Relatório completo com formatação profissional</p>
+                </div>
+
+                <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200">
+                    <div class="flex items-center mb-2">
+                        <svg class="w-5 h-5 text-green-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                        </svg>
+                        <span class="font-medium text-gray-800">Formato CSV</span>
+                    </div>
+                    <p class="text-sm text-gray-600">Planilha compatível com Excel</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cards de ações rápidas -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h4 class="font-medium text-gray-800">Período Flexível</h4>
+                    <p class="text-sm text-gray-600">Escolha de mês a mês</p>
+                </div>
+                <svg class="w-8 h-8 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-green-500 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h4 class="font-medium text-gray-800">Múltiplos Formatos</h4>
+                    <p class="text-sm text-gray-600">PDF ou CSV disponíveis</p>
+                </div>
+                <svg class="w-8 h-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+            </div>
+        </div>
+
+        <div class="bg-white rounded-lg shadow-md p-6 border-l-4 border-purple-500 hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h4 class="font-medium text-gray-800">Dados</h4>
+                    <p class="text-sm text-gray-600">Completos e organizados</p>
+                </div>
+                <svg class="w-8 h-8 text-purple-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.bg-gradient-to-r {
+    background: linear-gradient(135deg, #3B82F6 0%, #8B5CF6 100%);
+}
+
+.transform:hover {
+    transform: translateY(-2px);
+}
+
+select:focus, input:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.transition-all {
+    transition: all 0.2s ease-in-out;
+}
+</style>
+
+<script>
+    // Adicionar interatividade aos seletores de formato
+    document.addEventListener('DOMContentLoaded', function() {
+        const formatRadios = document.querySelectorAll('input[name="formato"]');
+        const labels = document.querySelectorAll('label[class*="border-gray-200"]');
+        
+        formatRadios.forEach(function(radio, index) {
+            radio.addEventListener('change', function() {
+                // Reset all labels
+                labels.forEach(function(label) {
+                    label.classList.remove('border-red-500', 'bg-red-50', 'border-green-500', 'bg-green-50');
+                    label.classList.add('border-gray-200');
+                });
+                
+                // Highlight selected option
+                if (this.checked) {
+                    const label = this.closest('label');
+                    if (this.value === 'pdf') {
+                        label.classList.remove('border-gray-200');
+                        label.classList.add('border-red-500', 'bg-red-50');
+                    } else if (this.value === 'csv') {
+                        label.classList.remove('border-gray-200');
+                        label.classList.add('border-green-500', 'bg-green-50');
+                    }
+                }
+            });
+            
+            // Check initial state
+            if (radio.checked) {
+                radio.dispatchEvent(new Event('change'));
+            }
+        });
+        
+        // Validação do período
+        function validarPeriodo() {
+            const mesInicio = parseInt(document.getElementById('mes_inicio').value);
+            const anoInicio = parseInt(document.getElementById('ano_inicio').value);
+            const mesFim = parseInt(document.getElementById('mes_fim').value);
+            const anoFim = parseInt(document.getElementById('ano_fim').value);
+            
+            const dataInicio = new Date(anoInicio, mesInicio - 1);
+            const dataFim = new Date(anoFim, mesFim - 1);
+            
+            if (dataInicio > dataFim) {
+                alert('⚠️ A data de início deve ser anterior à data de fim!');
+                return false;
+            }
+            
+            return true;
+        }
+        
+        // Adicionar validação ao submit
+        document.querySelector('form').addEventListener('submit', function(e) {
+            if (!validarPeriodo()) {
+                e.preventDefault();
+            }
+        });
+    });
+</script>
+
+{% endblock %}

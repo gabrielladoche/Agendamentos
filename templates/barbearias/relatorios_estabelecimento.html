@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - {{ barbearia.nome }}</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            font-size: 24px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .nav-menu {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .nav-menu ul {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-menu a {
+            color: #333;
+            text-decoration: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #f8f9fa;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-menu a:hover, .nav-menu a.active {
+            background-color: #667eea;
+            color: white;
+        }
+
+        .card {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .card h2 {
+            color: #333;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #f0f0f0;
+        }
+
+        .report-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .report-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all 0.3s;
+            display: block;
+        }
+
+        .report-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
+        }
+
+        .report-card h3 {
+            font-size: 20px;
+            margin-bottom: 10px;
+        }
+
+        .report-card p {
+            opacity: 0.9;
+            margin-bottom: 15px;
+        }
+
+        .report-card .features {
+            list-style: none;
+            padding: 0;
+        }
+
+        .report-card .features li {
+            padding: 5px 0;
+            opacity: 0.8;
+        }
+
+        .report-card .features li::before {
+            content: "✓ ";
+            margin-right: 8px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            color: white;
+            text-decoration: none;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+
+        .info-section {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .info-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .info-section ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .info-section li {
+            padding: 5px 0;
+            color: #666;
+        }
+
+        .info-section li::before {
+            content: "📊 ";
+            margin-right: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .report-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .nav-menu ul {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+            <h1>📈 Relatórios - {{ barbearia.nome }}</h1>
+            <div class="user-info">
+                <span>{{ user.first_name|default:user.username }}</span>
+                <a href="{% url 'barbearias:logout_estabelecimento' %}" class="btn btn-secondary">Sair</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <nav class="nav-menu">
+            <ul>
+                <li><a href="{% url 'barbearias:dashboard_estabelecimento' %}">📊 Dashboard</a></li>
+                <li><a href="{% url 'barbearias:agendamentos_estabelecimento' %}">📅 Agendamentos</a></li>
+                <li><a href="{% url 'barbearias:relatorios_estabelecimento' %}" class="active">📈 Relatórios</a></li>
+                <li><a href="/{{ barbearia.slug }}/" target="_blank">🌐 Ver Site Público</a></li>
+            </ul>
+        </nav>
+
+        <div class="card">
+            <h2>📊 Relatórios Disponíveis</h2>
+            
+            <div class="report-options">
+                <a href="{% url 'barbearias:relatorio_mensal_estabelecimento' %}" class="report-card">
+                    <h3>📈 Relatório Mensal</h3>
+                    <p>Análise completa do desempenho mensal do seu estabelecimento</p>
+                    <ul class="features">
+                        <li>Estatísticas de agendamentos</li>
+                        <li>Faturamento detalhado</li>
+                        <li>Gráficos interativos</li>
+                        <li>Comparação com mês anterior</li>
+                        <li>Ranking de serviços e profissionais</li>
+                    </ul>
+                </a>
+
+                <a href="{% url 'barbearias:exportar_csv_estabelecimento' %}" class="report-card">
+                    <h3>📄 Exportar Dados</h3>
+                    <p>Baixe todos os dados dos seus agendamentos em formato CSV</p>
+                    <ul class="features">
+                        <li>Dados completos dos agendamentos</li>
+                        <li>Informações dos clientes</li>
+                        <li>Detalhes dos serviços</li>
+                        <li>Compatible com Excel</li>
+                        <li>Ideal para análises externas</li>
+                    </ul>
+                </a>
+            </div>
+
+            <div class="info-section">
+                <h3>ℹ️ Sobre os Relatórios</h3>
+                <p>Os relatórios são gerados em tempo real com base nos dados dos seus agendamentos. Aqui está o que você pode analisar:</p>
+                <ul>
+                    <li>Volume de agendamentos por período</li>
+                    <li>Taxa de conversão e cancelamentos</li>
+                    <li>Faturamento e análise financeira</li>
+                    <li>Performance dos profissionais</li>
+                    <li>Serviços mais populares</li>
+                    <li>Tendências e padrões de crescimento</li>
+                    <li>Dados de contato dos clientes</li>
+                    <li>Horários de maior movimento</li>
+                </ul>
+            </div>
+
+            <div style="margin-top: 30px; text-align: center;">
+                <a href="{% url 'barbearias:dashboard_estabelecimento' %}" class="btn btn-secondary">
+                    ← Voltar ao Dashboard
+                </a>
+                <a href="{% url 'barbearias:relatorio_mensal_estabelecimento' %}" class="btn">
+                    Ver Relatório do Mês Atual →
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

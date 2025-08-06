@@ -1,0 +1,229 @@
+{% load static %}
+{% load tema_tags %}
+<!DOCTYPE html>
+<html lang="pt-br" {% if barbearia %}{% tema_data_attr barbearia %}{% else %}data-tema="classico"{% endif %}>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% if barbearia %}{{ barbearia.nome }}{% else %}Sistema de Agendamento{% endif %}{% endblock %}</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- CSS dos Temas -->
+    <link rel="stylesheet" href="{% static 'css/temas.css' %}">
+    
+    <!-- CSS personalizado do bloco -->
+    {% block extra_css %}{% endblock %}
+    
+    <!-- Meta tags para SEO -->
+    <meta name="description" content="{% block description %}Sistema de agendamento online{% if barbearia %} - {{ barbearia.nome }}{% endif %}{% endblock %}">
+    <meta name="keywords" content="agendamento, barbearia, salão, beleza, corte, cabelo">
+    
+    <!-- Favicons e PWA -->
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+</head>
+<body class="tema-fundo min-h-screen flex flex-col antialiased">
+    <!-- Navegação Principal -->
+    <nav class="tema-nav shadow-lg sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo e Nome -->
+                <div class="flex items-center">
+                    <a href="{% if barbearia %}{% url 'barbearias:mini_site' barbearia.slug %}{% else %}{% url 'barbearias:redirect_to_default' %}{% endif %}" 
+                       class="flex items-center tema-nav-link hover:tema-nav-link-hover transition-colors">
+                        <svg class="w-8 h-8 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+                        </svg>
+                        <span class="text-xl font-bold">
+                            {% if barbearia %}{{ barbearia.nome }}{% else %}Sistema de Agendamento{% endif %}
+                        </span>
+                    </a>
+                </div>
+                
+                <!-- Menu de Navegação -->
+                <div class="hidden md:flex items-center space-x-4">
+                    {% if barbearia %}
+                        <a href="{% url 'barbearias:mini_site' barbearia.slug %}" 
+                           class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
+                            </svg>
+                            Início
+                        </a>
+                        <a href="{% url 'barbearias:agendar' barbearia.slug %}" 
+                           class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                            </svg>
+                            Agendar
+                        </a>
+                        <a href="{% url 'barbearias:consultar_agendamentos_local' barbearia.slug %}" 
+                           class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 px-3 py-2 rounded-md text-sm font-medium transition-colors">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            Consultar
+                        </a>
+                    {% endif %}
+                </div>
+                
+                <!-- Menu Mobile -->
+                <div class="md:hidden">
+                    <button type="button" class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 p-2 rounded-md" 
+                            onclick="toggleMobileMenu()">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Menu Mobile Expandido -->
+        <div id="mobile-menu" class="md:hidden hidden">
+            <div class="px-2 pt-2 pb-3 space-y-1 bg-black bg-opacity-10">
+                {% if barbearia %}
+                    <a href="{% url 'barbearias:mini_site' barbearia.slug %}" 
+                       class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 block px-3 py-2 rounded-md text-base font-medium">
+                        Início
+                    </a>
+                    <a href="{% url 'barbearias:agendar' barbearia.slug %}" 
+                       class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 block px-3 py-2 rounded-md text-base font-medium">
+                        Agendar
+                    </a>
+                    <a href="{% url 'barbearias:consultar_agendamentos_local' barbearia.slug %}" 
+                       class="tema-nav-link hover:text-white hover:bg-black hover:bg-opacity-20 block px-3 py-2 rounded-md text-base font-medium">
+                        Consultar Agendamentos
+                    </a>
+                {% endif %}
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mensagens Flash -->
+    {% if messages %}
+        <div class="messages-container fixed top-20 right-4 z-50 space-y-2">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} tema-card px-4 py-3 rounded-lg shadow-lg max-w-sm tema-animacao" role="alert">
+                    <div class="flex items-center">
+                        {% if message.tags == 'success' %}
+                            <svg class="w-5 h-5 mr-2 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                            </svg>
+                        {% elif message.tags == 'error' %}
+                            <svg class="w-5 h-5 mr-2 text-red-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
+                            </svg>
+                        {% elif message.tags == 'warning' %}
+                            <svg class="w-5 h-5 mr-2 text-yellow-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+                            </svg>
+                        {% else %}
+                            <svg class="w-5 h-5 mr-2 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path>
+                            </svg>
+                        {% endif %}
+                        <span class="text-sm">{{ message }}</span>
+                        <button onclick="this.parentElement.parentElement.remove()" class="ml-auto text-gray-400 hover:text-gray-600">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Conteúdo Principal -->
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Rodapé -->
+    <footer class="tema-card mt-auto border-t">
+        <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="tema-texto-primario font-semibold text-lg mb-3">
+                        {% if barbearia %}{{ barbearia.nome }}{% else %}Sistema de Agendamento{% endif %}
+                    </h3>
+                    {% if barbearia %}
+                        <p class="tema-texto-claro text-sm">{{ barbearia.endereco }}</p>
+                        <p class="tema-texto-claro text-sm">{{ barbearia.telefone }}</p>
+                    {% endif %}
+                </div>
+                <div>
+                    <h3 class="tema-texto-primario font-semibold text-lg mb-3">Links Rápidos</h3>
+                    <ul class="space-y-2">
+                        {% if barbearia %}
+                            <li><a href="{% url 'barbearias:agendar' barbearia.slug %}" class="tema-link text-sm">Fazer Agendamento</a></li>
+                            <li><a href="{% url 'barbearias:consultar_agendamentos_local' barbearia.slug %}" class="tema-link text-sm">Consultar Agendamentos</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+                <div>
+                    <h3 class="tema-texto-primario font-semibold text-lg mb-3">Contato</h3>
+                    {% if barbearia %}
+                        <p class="tema-texto-claro text-sm mb-2">
+                            <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                            </svg>
+                            {{ barbearia.telefone }}
+                        </p>
+                        {% if barbearia.email_notificacoes %}
+                            <p class="tema-texto-claro text-sm">
+                                <svg class="w-4 h-4 inline mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 7.89a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                                </svg>
+                                {{ barbearia.email_notificacoes }}
+                            </p>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+            <div class="mt-8 pt-6 border-t border-gray-200">
+                <p class="tema-texto-claro text-center text-sm">
+                    © {% now "Y" %} {% if barbearia %}{{ barbearia.nome }}{% else %}Sistema de Agendamento{% endif %}. Todos os direitos reservados.
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript Base -->
+    <script>
+        // Toggle do menu mobile
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+        
+        // Auto-hide de mensagens após 5 segundos
+        setTimeout(() => {
+            const messages = document.querySelectorAll('.messages-container .alert');
+            messages.forEach(msg => {
+                msg.style.opacity = '0';
+                msg.style.transform = 'translateX(100%)';
+                setTimeout(() => msg.remove(), 300);
+            });
+        }, 5000);
+        
+        // Smooth scroll para links internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+    
+    <!-- JavaScript personalizado -->
+    {% block extra_js %}{% endblock %}
+</body>
+</html>
